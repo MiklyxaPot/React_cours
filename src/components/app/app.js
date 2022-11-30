@@ -48,7 +48,7 @@ class App extends Component {
          
       })
    }
-   onToggleIncrease = ( id) => {
+   onToggleProp = ( id, prop) => {
    // this.setState(({data}) => {
    //    const index = data.findIndex(elem => elem.id === id);
    //    const old = data[index];
@@ -62,22 +62,22 @@ class App extends Component {
    this.setState(({data}) =>({
       data: data.map(item =>{//тк метод мар не нарушает принцып немутабельности он проходит по массиву 
          if(item.id === id){//если йд айтома совпал с йд в аргументе то
-            return {...item, increase:!item.increase}//совподаюший меняется на противоположный 
+            return {...item, [prop]:!item[prop]}//совподаюший меняется на противоположный 
          }
          return item//если совподений нет то возврашаетсяне изменнеый item
       })
       }))
    }
-   onToggleRise = (id) => {
-      this.setState(({data}) =>({
-         data: data.map(item =>{//тк метод мар не нарушает принцып немутабельности он проходит по массиву 
-            if(item.id === id){//если йд айтома совпал с йд в аргументе то
-               return {...item, like:!item.like}//совподаюший меняется на противоположный 
-            }
-            return item//если совподений нет то возврашаетсяне изменнеый item
-         })
-         }))
-   }
+   // onToggleRise = (id) => {
+   //    this.setState(({data}) =>({
+   //       data: data.map(item =>{//тк метод мар не нарушает принцып немутабельности он проходит по массиву 
+   //          if(item.id === id){//если йд айтома совпал с йд в аргументе то
+   //             return {...item, like:!item.like}//совподаюший меняется на противоположный 
+   //          }
+   //          return item//если совподений нет то возврашаетсяне изменнеый item
+   //       })
+   //       }))
+   // }
    
 render (){
    const emploees = this.state.data.length;
@@ -94,8 +94,7 @@ render (){
          <EmployeersList 
          data = {this.state.data}
          onDelete = {this.deleteItem}
-         onToggleIncrease = {this.onToggleIncrease}
-         onToggleRise = {this.onToggleRise}
+         onToggleProp = {this.onToggleProp}
          />
          <EmployeersAddForm
        onAdd = { this.addItem}
