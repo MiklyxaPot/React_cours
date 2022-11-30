@@ -13,9 +13,9 @@ class App extends Component {
       super(props);
       this.state = {
          data: [
-            {name: 'Maks', salary: 800, increase: false, id: 1},
-            {name: 'Anna', salary: 3000, increase: false, id: 2},
-            {name: 'Mike', salary: 9000, increase: true, id: 3},
+            {name: 'Maks', salary: 800, increase: false, like: true, id: 1},
+            {name: 'Anna', salary: 3000, increase: false, like: false,id: 2},
+            {name: 'Mike', salary: 9000, increase: true, like: false, id: 3},
        
          ]
       }
@@ -38,6 +38,7 @@ class App extends Component {
       const newItem = {
          name,
          salary,
+         like: false,
          increase: false,
          id: this.maxId++
       };
@@ -46,6 +47,29 @@ class App extends Component {
          return{data: newArr}
          
       })
+   }
+   onToggleIncrease = ( id) => {
+   // this.setState(({data}) => {
+   //    const index = data.findIndex(elem => elem.id === id);
+   //    const old = data[index];
+   //    const newItem = {...old, increase:!old.increase};//спред опреатор разворачивает обьект, то что запписано после запятойи= если совподение то заменяется в новом оьекте 
+   //    const newArr = [...data.slice(0, index), newItem, ...data.slice(index +1)];// слайсоь копирует частьобьекта доиндекса добовляеттуда новый item и потом добовляется остаок масива 
+      
+   //    return {
+   //       data: newArr//в data передаем новый масив
+   //    }
+   // })
+   this.setState(({data}) =>({
+      data: data.map(item =>{//тк метод мар не нарушает принцып немутабельности он проходит по массиву 
+         if(item.id === id){//если йд айтома совпал с йд в аргументе то
+            return {...item, increase:!item.increase}//совподаюший меняется на противоположный 
+         }
+         return item//если совподений нет то возврашаетсяне изменнеый item
+      })
+      }))
+   }
+   onToggleRise = (id) => {
+      console.log(`rise this ${id}`);
    }
    
 render (){
@@ -56,8 +80,12 @@ render (){
             <SearchPanel/>
             <Appfilter/>
          </div>
-         <EmployeersList data = {this.state.data}
-         onDelete = {this.deleteItem}/>
+         <EmployeersList 
+         data = {this.state.data}
+         onDelete = {this.deleteItem}
+         onToggleIncrease = {this.onToggleIncrease}
+         onToggleRise = {this.onToggleRise}
+         />
          <EmployeersAddForm
        onAdd = { this.addItem}
          />
