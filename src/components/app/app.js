@@ -69,13 +69,24 @@ class App extends Component {
       }))
    }
    onToggleRise = (id) => {
-      console.log(`rise this ${id}`);
+      this.setState(({data}) =>({
+         data: data.map(item =>{//тк метод мар не нарушает принцып немутабельности он проходит по массиву 
+            if(item.id === id){//если йд айтома совпал с йд в аргументе то
+               return {...item, like:!item.like}//совподаюший меняется на противоположный 
+            }
+            return item//если совподений нет то возврашаетсяне изменнеый item
+         })
+         }))
    }
    
 render (){
+   const emploees = this.state.data.length;
+   const encreased = this.state.data.filter(item => item.increase).length;
+   
+   
    return(
       <div className="app">
-         <AppInfo/>
+         <AppInfo emploees = {emploees} encreased ={encreased}/>
          <div className="search-panel">
             <SearchPanel/>
             <Appfilter/>
